@@ -1,1 +1,7 @@
+self_front:
+    resource: "@SelfFrontBundle/Controller/"
+    type:     annotation
+    prefix:   /
 
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
