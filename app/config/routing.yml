@@ -1,7 +1,17 @@
+self_season:
+    resource: "@SelfSeasonBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 self_front:
     resource: "@SelfFrontBundle/Controller/"
     type:     annotation
     prefix:   /
+
+self_team:
+    resource: "@SelfTeamBundle/Controller/"
+    type:     annotation
+    prefix:   /team
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"

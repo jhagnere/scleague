@@ -1,0 +1,39 @@
+{% extends "SelfFrontBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% block content %}
+            <div class="row">
+                <form  class="form-horizontal" action="{{ path("fos_user_security_check") }}" method="POST">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                    {% if error %}
+                        <div class="form-group">
+                            <p class="alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                        </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label" for="username">{{ 'security.login.username'|trans }}</label>
+                        <input class="col-xs-3 input-sm" type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label" for="password">{{ 'security.login.password'|trans }}</label>
+                        <input class="col-xs-3 input-sm" type="password" id="password" name="_password" required="required" />
+                    </div>
+                    <div  class="form-group">
+                        <div class="col-xs-offset-3">
+                            <div class="checkbox">
+                                <input class="" type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                                <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-3">
+                            <button type="submit" id="_submit" name="_submit" class="btn btn-success">{{ 'security.login.submit'|trans }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+{% endblock content %}
+

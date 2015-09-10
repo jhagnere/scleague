@@ -1,0 +1,55 @@
+{%  block navbar %}
+    <nav role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('self_front_home_index') }}">Starcraft Team League</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="navbar-nav nav">
+                    <li>
+                        <a href="{{ path('self_front_home_index') }}">Home</a>
+                    </li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                </ul>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <ul class="navbar-nav nav navbar-right">
+                        <li role="presentation" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                {{ app.user.username }}  <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('self_front_dashboard_index') }}">Dashboard</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('fos_user_profile_show') }}">Profile</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('self_team_team_myteam') }}">Team</a></li>
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Admin</a></li>
+                                {% endif %}
+                                <li class="divider"></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('fos_user_security_logout') }}">Sign out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% else %}
+                    <div class="navbar-nav nav navbar-right">
+                        <div class="btn-group ">
+                            <a href="{{ path('fos_user_registration_register') }}">
+                                <button type="button" class=" btn btn-info navbar-btn">Sign up</button>
+                            </a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="" href="{{ path('fos_user_security_login') }}">
+                                <button type="button" class="btn btn-default navbar-btn ">Sign in</button>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+{% endblock %}

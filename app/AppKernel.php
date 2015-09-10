@@ -19,7 +19,10 @@ class AppKernel extends Kernel
             new \FOS\UserBundle\FOSUserBundle(),
             new Self\FrontBundle\SelfFrontBundle(),
             new Self\UserBundle\SelfUserBundle(),
-            new \Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle()
+            new \Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Self\TeamBundle\SelfTeamBundle(),
+            new Self\SeasonBundle\SelfSeasonBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
