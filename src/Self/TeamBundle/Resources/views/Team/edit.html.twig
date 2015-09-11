@@ -1,0 +1,11 @@
+{% extends 'SelfFrontBundle::layout.html.twig' %}
+
+ {% block content %}
+     <h1>Edit your team</h1>
+
+     {{ form_start(teamForm) }}
+     {{ form_errors(teamForm) }}
+
+
+     {{ form_end(teamForm) }}
+ {% endblock %}

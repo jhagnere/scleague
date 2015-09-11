@@ -121,4 +121,11 @@ class Season
     {
         return $this->name;
     }
+
+    function __toString()
+    {
+        return $this->name;
+    }
+
+
 }

@@ -6,6 +6,7 @@ use Self\TeamBundle\Entity\Team;
 use Self\TeamBundle\Form\Type\TeamType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -36,6 +37,18 @@ class TeamController extends Controller
     }
 
     /**
+     * @Route("/{id}", requirements={
+     *  "id": "\d+"
+     * })
+     * @Template()
+     */
+    public function viewAction($id) {
+        $team = $this->getDoctrine()->getRepository('Self\TeamBundle\Entity\Team')->find($id);
+        return array('team' => $team);
+    }
+
+
+    /**
      * @Route("/myteam")
      * @Template()
      */
@@ -49,6 +62,8 @@ class TeamController extends Controller
         return array('team' => $team);
     }
 
+
+
     /**
      * @Route("/new")
      * @Template()
@@ -61,6 +76,8 @@ class TeamController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $form->upload();
+            exit;
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
 
@@ -80,8 +97,65 @@ class TeamController extends Controller
             return $this->redirect($this->generateUrl('self_front_dashboard_index'));
         }
 
+        return(array('teamForm' => $form->createView()));
+    }
+
+    /**
+     * @Route("/edit/{id}")
+     * @Template()
+     */
+    public function editAction($id, Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $teamFromDB = $em->getRepository('Self\TeamBundle\Entity\Team')->find($id);
+
+        if (!$teamFromDB) {
+            throw $this->createNotFoundException('No team found for id ' . $id);
+        }
+
+
+        $form = $this->createForm(new TeamType(), $teamFromDB);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $teamFromDB->upload();
+            $em->flush();
+
+
+
+            return $this->redirect($this->generateUrl('self_team_team_myteam'));
+        }
+
 
         return(array('teamForm' => $form->createView()));
     }
+
+    /**
+     * @Route("/delete")
+     * @Method("POST")
+     */
+   /* public function deleteAction(Request $request) {
+
+        $form = $this->createDeleteForm2($request->request->get('id'));
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $entity = $em->getRepository('SelfTeamBundle:Team')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Team entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+        }
+        return $this->redirect($this->generateUrl('self_team_team_myteam'));
+
+
+    } */
+
+
+
 
 }

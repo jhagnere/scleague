@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Self\TeamBundle\SelfTeamBundle(),
             new Self\SeasonBundle\SelfSeasonBundle(),
+            new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

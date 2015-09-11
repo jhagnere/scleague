@@ -103,6 +103,8 @@ fos_user:
     service:
       mailer: fos_user.mailer.twig_swift
     registration:
+      form:
+        type: app_user_registration
       confirmation:
         enabled:    true
     resetting:
@@ -111,3 +113,12 @@ fos_user:
         from_email:
           address:        resetting@acmedemo.com
           sender_name:    Acme Demo Resetting
+
+easy_admin:
+    entities:
+        - Self\UserBundle\Entity\User
+        - Self\TeamBundle\Entity\Team
+        - Self\TeamBundle\Entity\Game
+        - Self\SeasonBundle\Entity\Division
+        - Self\SeasonBundle\Entity\Season
+        - Self\SeasonBundle\Entity\SeasonTeam

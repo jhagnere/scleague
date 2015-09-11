@@ -4,6 +4,7 @@ namespace Self\UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 
@@ -24,8 +25,17 @@ class User extends BaseUser {
     protected $id;
 
     /**
-     * @ORM\Column(name="battle_tag", type="string",length=255)
+     * @ORM\Column(name="battle_tag", type="string",length=255, nullable=true)
+     * @Assert\NotBlank(message="Please enter your battletag.", groups={"Registration", "Profile"})
+     * @Assert\Length(
+     *     min=3,
+     *     max=255,
+     *     minMessage="The battletag is too short.",
+     *     maxMessage="The battletag is too long.",
+     *     groups={"Registration", "Profile"}
+     * )
      */
+
     private $battleTag;
 
     /**
@@ -40,6 +50,16 @@ class User extends BaseUser {
     public function getTeam()
     {
         return $this->team;
+    }
+
+    public function getExpiresAt()
+    {
+        return $this->expiresAt;
+    }
+
+    public function getCredentialsExpireAt()
+    {
+        return $this->credentialsExpireAt;
     }
 
     /**

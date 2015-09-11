@@ -4,12 +4,15 @@ namespace Self\TeamBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Team
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Self\TeamBundle\Entity\TeamRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Team
 {
@@ -32,23 +35,23 @@ class Team
     /**
      * @var string
      *
-     * @ORM\Column(name="websiteUrl", type="string", length=255)
+     * @ORM\Column(name="websiteUrl", type="string", length=255, nullable=true)
      */
     private $websiteUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="logo", type="blob", nullable=true)
+     * @ORM\Column(name="logo", type="string", length=255, nullable=true)
      */
-    private $logo;
+    private $path;
 
     /**
      * @var string
      *
      * @ORM\Column(name="shortname", type="string", length=10)
      */
-    private $shortname;
+    private $shortName;
 
     /**
      * @var Array[User]
@@ -56,6 +59,23 @@ class Team
      * @ORM\OneToMany(targetEntity="Self\UserBundle\Entity\User", mappedBy="team")
      **/
     private $players;
+
+    /**
+     * @Assert\File(maxSize="6000000")
+     */
+    private $file;
+
+    private $temp;
+
+        /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
 
 
     /**
@@ -115,37 +135,37 @@ class Team
     }
 
     /**
-     * Set logo
+     * Set path
      *
-     * @param string $logo
+     * @param string $path
      * @return Team
      */
-    public function setLogo($logo)
+    public function setPath($path)
     {
-        $this->logo = $logo;
+        $this->path = $path;
 
         return $this;
     }
 
     /**
-     * Get logo
+     * Get path
      *
      * @return string 
      */
-    public function getLogo()
+    public function getPath()
     {
-        return $this->logo;
+        return $this->path;
     }
 
     /**
      * Set shortname
      *
-     * @param string $shortname
+     * @param string $shortName
      * @return Team
      */
-    public function setShortname($shortname)
+    public function setShortName($shortName)
     {
-        $this->shortname = $shortname;
+        $this->shortName = $shortName;
 
         return $this;
     }
@@ -155,9 +175,9 @@ class Team
      *
      * @return string 
      */
-    public function getShortname()
+    public function getShortName()
     {
-        return $this->shortname;
+        return $this->shortName;
     }
 
     /**
@@ -179,5 +199,91 @@ class Team
     function __construct() {
         $this->players = new ArrayCollection();
     }
+
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+        // check if we have an old image path
+        if (is_file($this->getAbsolutePath())) {
+            // store the old name to delete after the update
+            $this->temp = $this->getAbsolutePath();
+        } else {
+            $this->setPath('initial');
+        }
+    }
+
+
+
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     * @return void
+     */
+    public function upload() {
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        if (null !== $this->getFile()) {
+            $fileName = md5(uniqid());
+            $this->setPath($fileName.'.'.$this->getFile()->guessExtension());
+        }
+
+        $this->getFile()->move($this->getUploadRootDir(), $this->getPath());
+        if(isset($this->temp)) {
+            unlink($this->temp);
+            $this->temp = null;
+        }
+
+        $this->setFile(null);
+    }
+
+    /**
+     * @ORM\PreRemove()
+     */
+    public function storeFilenameForRemove()
+    {
+        $this->temp = $this->getAbsolutePath();
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if (isset($this->temp)) {
+            unlink($this->temp);
+        }
+    }
+
+    protected function getUploadRootDir()
+    {
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+
+    }
+
+    private function getUploadDir()
+    {
+        return 'uploads/logos';
+    }
+
+    private function getAbsolutePath()
+    {
+        return null === $this->getPath()
+            ? null
+            : $this->getUploadRootDir().'/'.$this->getPath();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
 
 }

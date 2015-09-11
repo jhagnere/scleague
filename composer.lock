@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c1bd2ced3825ec379c52c55a841e7026",
+    "hash": "9ecd80af57d958b6de5056194669f2a3",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -889,7 +889,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/92d5624f2a29e74d8fd9d2a94d7ed7998a8c2809",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/6b7bb04c6d507bb5356bf70b2d1bc30ce64ffc60",
                 "reference": "92d5624f2a29e74d8fd9d2a94d7ed7998a8c2809",
                 "shasum": ""
             },
@@ -997,6 +997,64 @@
                 "parameters management"
             ],
             "time": "2013-12-07 10:10:39"
+        },
+        {
+            "name": "javiereguiluz/easyadmin-bundle",
+            "version": "v1.5.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/javiereguiluz/EasyAdminBundle.git",
+                "reference": "fe386c6b4edc1a689b60abe54b4317fae6316826"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/javiereguiluz/EasyAdminBundle/zipball/fe386c6b4edc1a689b60abe54b4317fae6316826",
+                "reference": "fe386c6b4edc1a689b60abe54b4317fae6316826",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "~1.2",
+                "doctrine/orm": "~2.3",
+                "pagerfanta/pagerfanta": "~1.0,>=1.0.1",
+                "php": ">=5.3.0",
+                "sensio/distribution-bundle": "~2.3|~3.0|~4.0",
+                "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
+                "symfony/symfony": "~2.3",
+                "twig/extensions": "~1.0",
+                "twig/twig": "~1.12,>=1.12.2"
+            },
+            "require-dev": {
+                "doctrine/doctrine-fixtures-bundle": "~2.2",
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "JavierEguiluz\\Bundle\\EasyAdminBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Javier Eguiluz",
+                    "email": "javiereguiluz@gmail.com"
+                },
+                {
+                    "name": "Project Contributors",
+                    "homepage": "http://github.com/javiereguiluz/easyadmin/blob/master/CONTRIBUTORS.md"
+                }
+            ],
+            "description": "Admin generator for Symfony applications",
+            "homepage": "https://github.com/javiereguiluz/EasyAdminBundle",
+            "keywords": [
+                "admin",
+                "backend",
+                "generator"
+            ],
+            "time": "2015-06-22 06:42:42"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -1323,6 +1381,73 @@
                 "psr-3"
             ],
             "time": "2015-03-09 09:58:04"
+        },
+        {
+            "name": "pagerfanta/pagerfanta",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/whiteoctober/Pagerfanta.git",
+                "reference": "a874d3612d954dcbbb49e5ffe178890918fb76fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/whiteoctober/Pagerfanta/zipball/a874d3612d954dcbbb49e5ffe178890918fb76fb",
+                "reference": "a874d3612d954dcbbb49e5ffe178890918fb76fb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "doctrine/orm": "~2.3",
+                "doctrine/phpcr-odm": "1.*",
+                "jackalope/jackalope-doctrine-dbal": "1.*",
+                "jmikola/geojson": "~1.0",
+                "mandango/mandango": "~1.0@dev",
+                "mandango/mondator": "~1.0@dev",
+                "phpunit/phpunit": "~4",
+                "propel/propel1": "~1.6",
+                "ruflin/elastica": "~1.3",
+                "solarium/solarium": "~3.1"
+            },
+            "suggest": {
+                "doctrine/mongodb-odm": "To use the DoctrineODMMongoDBAdapter.",
+                "doctrine/orm": "To use the DoctrineORMAdapter.",
+                "doctrine/phpcr-odm": "To use the DoctrineODMPhpcrAdapter. >= 1.1.0",
+                "mandango/mandango": "To use the MandangoAdapter.",
+                "propel/propel1": "To use the PropelAdapter",
+                "solarium/solarium": "To use the SolariumAdapter."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Pagerfanta\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Díez",
+                    "email": "pablodip@gmail.com"
+                }
+            ],
+            "description": "Pagination for PHP 5.3",
+            "keywords": [
+                "page",
+                "pagination",
+                "paginator",
+                "paging"
+            ],
+            "time": "2014-10-06 10:57:25"
         },
         {
             "name": "psr/log",

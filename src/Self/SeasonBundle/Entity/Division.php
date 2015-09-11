@@ -31,7 +31,7 @@ class Division
     /**
      * @var string
      *
-     * @ORM\Column(name="imgDiv", type="blob")
+     * @ORM\Column(name="imgDiv", type="string", length=255, nullable=true)
      */
     private $imgDiv;
 
@@ -113,4 +113,10 @@ class Division
     {
         $this->nextDivision = $nextDivision;
     }
+
+    function __toString()
+    {
+      return $this->name;
+    }
+
 }

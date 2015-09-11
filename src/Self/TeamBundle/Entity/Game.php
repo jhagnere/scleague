@@ -24,7 +24,8 @@ class Game
     /**
      * @var integer
      *
-     * @ORM\Column(name="seasonId", type="integer")
+     * @ORM\ManyToOne(targetEntity="Self\SeasonBundle\Entity\Season")
+     * @ORM\JoinColumn(name="seasonId", referencedColumnName="id")
      */
     private $seasonId;
 

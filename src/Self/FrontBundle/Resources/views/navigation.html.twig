@@ -14,8 +14,8 @@
                     <li>
                         <a href="{{ path('self_front_home_index') }}">Home</a>
                     </li>
-                    <li><a href="#">Link</a></li>
-                    <li><a href="#">Link</a></li>
+                    <li><a href="{{ path('self_team_team_list') }}">Teams</a></li>
+                    <li><a href="#">League</a></li>
                 </ul>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <ul class="navbar-nav nav navbar-right">
@@ -28,7 +28,7 @@
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('fos_user_profile_show') }}">Profile</a></li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('self_team_team_myteam') }}">Team</a></li>
                                 {% if is_granted("ROLE_ADMIN") %}
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Admin</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('admin') }}">Admin</a></li>
                                 {% endif %}
                                 <li class="divider"></li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('fos_user_security_logout') }}">Sign out</a></li>

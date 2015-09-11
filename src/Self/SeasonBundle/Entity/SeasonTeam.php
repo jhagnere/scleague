@@ -135,4 +135,11 @@ class SeasonTeam
     {
         $this->division = $division;
     }
+
+    function __toString()
+    {
+        return $this->season.'.'.$this->division.'.'.$this->team;
+    }
+
+
 }

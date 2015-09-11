@@ -19,8 +19,8 @@ class TeamType extends AbstractType{
 
         $builder->add('name', 'text');
         $builder->add('shortName', 'text');
-        $builder->add('websiteUrl', 'text', array('label' => 'Website'));
-        $builder->add('logo', 'file', array('required' => false));
+        $builder->add('websiteUrl', 'text', array('required' => false, 'label' => 'Website'));
+        $builder->add('file', 'file', array('required' => false, 'label' => 'logo'));
         $builder->add('save', 'submit', array('label' => 'Create Team'));
     }
     /**
