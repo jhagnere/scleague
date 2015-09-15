@@ -28,7 +28,7 @@
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('fos_user_profile_show') }}">Profile</a></li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('self_team_team_myteam') }}">Team</a></li>
                                 {% if is_granted("ROLE_ADMIN") %}
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('admin') }}">Admin</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('sonata_admin_redirect') }}">Admin</a></li>
                                 {% endif %}
                                 <li class="divider"></li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('fos_user_security_logout') }}">Sign out</a></li>

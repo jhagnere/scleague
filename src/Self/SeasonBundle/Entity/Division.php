@@ -37,9 +37,9 @@ class Division
 
     /**
      * @ORM\OneToOne(targetEntity="Division")
-     * @ORM\JoinColumn(name="previousDiv", referencedColumnName="id")
+     * @ORM\JoinColumn(name="nextDiv", referencedColumnName="id", nullable=true)
      **/
-    private $nextDivision;
+    private $nextDivision = null;
 
 
     /**

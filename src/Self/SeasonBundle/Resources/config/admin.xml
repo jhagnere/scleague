@@ -1,0 +1,24 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="sonata.admin.division" class="Self\SeasonBundle\Admin\DivisionAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="season" label="Division"/>
+            <argument />
+            <argument>Self\SeasonBundle\Entity\Division</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>SelfSeasonBundle</argument>
+            </call>
+        </service>
+        <service id="sonata.admin.season" class="Self\SeasonBundle\Admin\SeasonAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="season" label="Season"/>
+            <argument />
+            <argument>Self\SeasonBundle\Entity\Season</argument>
+            <argument>SelfSeasonBundle:Season</argument>
+            <call method="setTranslationDomain">
+                <argument>SelfSeasonBundle</argument>
+            </call>
+        </service>
+    </services>
+</container>

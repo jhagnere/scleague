@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="SelfSeasonBundle.en.xliff">
+        <body>
+            <trans-unit id="action_close">
+                <source>action_close</source>
+                <target>Fermer</target>
+            </trans-unit>
+            <trans-unit id="action_launch">
+                <source>action_launch</source>
+                <target>Démarrer</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

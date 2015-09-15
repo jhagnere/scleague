@@ -2,7 +2,7 @@
 
 namespace Self\UserBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
+use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,7 +25,7 @@ class User extends BaseUser {
     protected $id;
 
     /**
-     * @ORM\Column(name="battle_tag", type="string",length=255, nullable=true)
+     * @ORM\Column(name="battle_tag", type="string",length=255)
      * @Assert\NotBlank(message="Please enter your battletag.", groups={"Registration", "Profile"})
      * @Assert\Length(
      *     min=3,
@@ -91,4 +91,4 @@ class User extends BaseUser {
     }
 
 
-} 
+}

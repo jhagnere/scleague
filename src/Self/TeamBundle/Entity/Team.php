@@ -213,7 +213,10 @@ class Team
             // store the old name to delete after the update
             $this->temp = $this->getAbsolutePath();
         } else {
-            $this->setPath('initial');
+            if (null !== $this->getFile()) {
+                $fileName = md5(uniqid());
+                $this->setPath($fileName.'.'.$this->getFile()->guessExtension());
+            }
         }
     }
 
@@ -230,7 +233,7 @@ class Team
             return;
         }
 
-        if (null !== $this->getFile()) {
+        if (null !== $this->getFile() && $this->getPath() == null) {
             $fileName = md5(uniqid());
             $this->setPath($fileName.'.'.$this->getFile()->guessExtension());
         }
@@ -240,8 +243,6 @@ class Team
             unlink($this->temp);
             $this->temp = null;
         }
-
-        $this->setFile(null);
     }
 
     /**
@@ -257,7 +258,7 @@ class Team
      */
     public function removeUpload()
     {
-        if (isset($this->temp)) {
+        if (isset($this->temp) && is_file($this->temp)) {
             unlink($this->temp);
         }
     }

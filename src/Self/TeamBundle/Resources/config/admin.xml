@@ -1,0 +1,24 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="sonata.admin.team" class="Self\TeamBundle\Admin\TeamAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="match" label="Team"/>
+            <argument />
+            <argument>Self\TeamBundle\Entity\Team</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>SelfTeamBundle</argument>
+            </call>
+        </service>
+        <service id="sonata.admin.game" class="Self\TeamBundle\Admin\GameAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="match" label="Game"/>
+            <argument />
+            <argument>Self\TeamBundle\Entity\Game</argument>
+            <argument />
+            <call method="setTranslationDomain">
+                <argument>SelfTeamBundle</argument>
+            </call>
+        </service>
+    </services>
+</container>

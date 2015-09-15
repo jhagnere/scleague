@@ -2,6 +2,13 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: @SelfTeamBundle/Resources/config/admin.xml }
+    - { resource: @SelfSeasonBundle/Resources/config/admin.xml }
+    - { resource: @SelfUserBundle/Resources/config/admin.xml }
+    - { resource: sonata/sonata_block.yml }
+
+
+
 
 framework:
     #esi:             ~
@@ -73,6 +80,7 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
+        server_version: 5.6
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -82,7 +90,12 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
+        default_entity_manager: default
+
+        entity_managers:
+            default:
+                auto_mapping: true
+                mappings: ~
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -96,12 +109,13 @@ swiftmailer:
 
 
 
+
 fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Self\UserBundle\Entity\User
-    service:
-      mailer: fos_user.mailer.twig_swift
+#    group:
+#        group_class:   Self\UserBundle\Entity\Group
     registration:
       form:
         type: app_user_registration
@@ -109,16 +123,36 @@ fos_user:
         enabled:    true
     resetting:
       email:
-        template: SelfUserBundle:User:resetting.email.html.twig
+#        template: SelfUserBundle:User:resetting.email.html.twig
         from_email:
           address:        resetting@acmedemo.com
           sender_name:    Acme Demo Resetting
 
-easy_admin:
-    entities:
-        - Self\UserBundle\Entity\User
-        - Self\TeamBundle\Entity\Team
-        - Self\TeamBundle\Entity\Game
-        - Self\SeasonBundle\Entity\Division
-        - Self\SeasonBundle\Entity\Season
-        - Self\SeasonBundle\Entity\SeasonTeam
+
+
+sonata_admin:
+    dashboard:
+        blocks:
+            - { position: left, type: sonata.block.service.text, settings: { content: "<div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'>Welcome!</h3></div><div class='panel-body'>You can customize this dashboard by editing the <code>sonata_admin.yml</code> file. The current dashboard presents the recent items from the NewsBundle and a non-statistical e-commerce information.</div></div>" } }
+
+        groups:
+            sonata.admin.group.season:
+                label:  Season
+                icon:   '<i class="fa fa-sitemap"></i>'
+                items:
+                    - sonata.admin.season
+                    - sonata.admin.division
+
+            sonata.admin.group.match :
+                label:   Match
+                icon:   <i class="fa fa-gamepad"></i>
+                items:
+                    - sonata.admin.team
+                    - sonata.admin.game
+
+            sonata.admin.group.administration:
+                label:  sonata_administration
+                label_catalogue: SonataAdminBundle
+                icon:   '<i class="fa fa-cogs"></i>'
+                items:
+                    - sonata.demo.admin.user

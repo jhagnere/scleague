@@ -7,7 +7,7 @@
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
                     {% if error %}
                         <div class="form-group">
-                            <p class="alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                            <p class="alert-danger">{{ error|trans }}</p>
                         </div>
                     {% endif %}
                     <div class="form-group">
