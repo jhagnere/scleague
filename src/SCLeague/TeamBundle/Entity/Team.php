@@ -1,6 +1,6 @@
 <?php
 
-namespace Self\TeamBundle\Entity;
+namespace SCLeague\TeamBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;

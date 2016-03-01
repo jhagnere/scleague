@@ -2,9 +2,9 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: @SelfTeamBundle/Resources/config/admin.xml }
-    - { resource: @SelfSeasonBundle/Resources/config/admin.xml }
-    - { resource: @SelfUserBundle/Resources/config/admin.xml }
+    - { resource: @SCLeagueTeamBundle/Resources/config/admin.xml }
+    - { resource: @SCLeagueSeasonBundle/Resources/config/admin.xml }
+    - { resource: @SCLeagueUserBundle/Resources/config/admin.xml }
     - { resource: sonata/sonata_block.yml }
 
 
@@ -113,9 +113,9 @@ swiftmailer:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: Self\UserBundle\Entity\User
+    user_class: SCLeague\UserBundle\Entity\User
 #    group:
-#        group_class:   Self\UserBundle\Entity\Group
+#        group_class:   SCLeague\UserBundle\Entity\Group
     registration:
       form:
         type: app_user_registration

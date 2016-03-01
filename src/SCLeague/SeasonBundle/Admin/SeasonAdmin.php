@@ -1,6 +1,6 @@
 <?php
 
-namespace Self\SeasonBundle\Admin;
+namespace SCLeague\SeasonBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -36,8 +36,8 @@ class SeasonAdmin extends Admin
             ->add('active')
             ->add('_action', 'actions', array(
                 'actions' => array(
-                    'close' => array('template' => 'SelfSeasonBundle:CRUD:list__action_close.html.twig'),
-                    'launch' => array('template' => 'SelfSeasonBundle:CRUD:list__action_launch.html.twig'),
+                    'close' => array('template' => 'SCLeagueSeasonBundle:CRUD:list__action_close.html.twig'),
+                    'launch' => array('template' => 'SCLeagueSeasonBundle:CRUD:list__action_launch.html.twig'),
                 )
             ))
         ;

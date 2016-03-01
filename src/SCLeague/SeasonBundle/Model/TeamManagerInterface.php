@@ -9,19 +9,15 @@
 namespace SCLeague\SeasonBundle\Model;
 
 
+use SCLeague\SeasonBundle\Entity\Season;
+
 interface TeamManagerInterface
 {
-
-    /**
-     * Return either the previous or the next division (or current) based on the manager
-     * @return mixed
-     */
-    public function getDivision();
 
     /**
      * Create the new entities to persist in DB concerning the season
      *
      */
-    public function manageTeamsForSeason();
+    public function manageTeamsForSeason(Season $season);
 
 }

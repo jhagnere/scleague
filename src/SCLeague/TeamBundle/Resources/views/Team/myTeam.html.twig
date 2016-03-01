@@ -1,9 +1,9 @@
-{% extends 'SelfFrontBundle::layout.html.twig' %}
+{% extends 'SCLeagueFrontBundle::layout.html.twig' %}
 
  {% block content %}
      <img src="{{ asset('uploads/logos/' ~ team.path) }}" />
      <h1>{{ team.name }}</h1>
      <p> Website : <a href="{{ team.websiteUrl }}"> {{ team.websiteUrl }}</a></p>
-     <a href="{{ path('self_team_team_edit', {'id' : team.id }) }}"> Edit Team </a>
+     <a href="{{ path('scleague_team_team_edit', {'id' : team.id }) }}"> Edit Team </a>
 
  {% endblock %}

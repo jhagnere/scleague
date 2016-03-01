@@ -33,10 +33,10 @@ class AppKernel extends Kernel
             new Sonata\DatagridBundle\SonataDatagridBundle(),
             new Sonata\AdminBundle\SonataAdminBundle(),
 
-            new Self\FrontBundle\SelfFrontBundle(),
-            new Self\TeamBundle\SelfTeamBundle(),
-            new Self\SeasonBundle\SelfSeasonBundle(),
-            new Self\UserBundle\SelfUserBundle(),
+            new SCLeague\FrontBundle\SCLeagueFrontBundle(),
+            new SCLeague\TeamBundle\SCLeagueTeamBundle(),
+            new SCLeague\SeasonBundle\SCLeagueSeasonBundle(),
+            new SCLeague\UserBundle\SCLeagueUserBundle(),
 
         );
 

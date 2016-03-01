@@ -1,6 +1,6 @@
 <?php
 
-namespace Self\TeamBundle\Tests\Controller;
+namespace SCLeague\TeamBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

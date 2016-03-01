@@ -1,6 +1,6 @@
 {% if admin.isGranted('CLOSE', object) and admin.hasRoute('close') %}
-    <a href="{{ admin.generateObjectUrl('close', object) }}" class="btn btn-sm btn-default close_link" title="{{ 'action_close'|trans({}, 'SelfSeasonBundle') }}">
+    <a href="{{ admin.generateObjectUrl('close', object) }}" class="btn btn-sm btn-default close_link" title="{{ 'action_close'|trans({}, 'SCLeagueSeasonBundle') }}">
         <i class="fa  fa-times-circle"></i>
-        {{ 'action_close'|trans({}, 'SelfSeasonBundle') }}
+        {{ 'action_close'|trans({}, 'SCLeagueSeasonBundle') }}
     </a>
 {% endif %}

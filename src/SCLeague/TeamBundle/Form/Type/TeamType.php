@@ -1,6 +1,6 @@
 <?php
 
-namespace Self\TeamBundle\Form\Type;
+namespace SCLeague\TeamBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

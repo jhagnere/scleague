@@ -1,15 +1,15 @@
 self_season:
-    resource: "@SelfSeasonBundle/Controller/"
+    resource: "@SCLeagueSeasonBundle/Controller/"
     type:     annotation
     prefix:   /
 
 self_front:
-    resource: "@SelfFrontBundle/Controller/"
+    resource: "@SCLeagueFrontBundle/Controller/"
     type:     annotation
     prefix:   /
 
 self_team:
-    resource: "@SelfTeamBundle/Controller/"
+    resource: "@SCLeagueTeamBundle/Controller/"
     type:     annotation
     prefix:   /team
 

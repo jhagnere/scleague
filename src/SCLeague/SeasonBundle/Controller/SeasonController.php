@@ -1,6 +1,6 @@
 <?php
 
-namespace Self\SeasonBundle\Controller;
+namespace SCLeague\SeasonBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\Request;
@@ -8,8 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Self\SeasonBundle\Entity\Season;
-use Self\SeasonBundle\Form\SeasonType;
+use SCLeague\SeasonBundle\Entity\Season;
+use SCLeague\SeasonBundle\Form\SeasonType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -32,7 +32,7 @@ class SeasonController extends CRUDController
             throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
         }
 
-        $seasonLaunch =  $this->container->get('self_season.season.manager')->launchSeason($id);
+        $seasonLaunch =  $this->container->get('scleague_season.season.manager')->launchSeason($id);
 
         return 'test';
     }

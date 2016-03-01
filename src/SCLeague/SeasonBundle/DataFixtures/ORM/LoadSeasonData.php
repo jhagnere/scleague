@@ -1,10 +1,10 @@
 <?php
 
-namespace Self\SeasonBundle\DataFixtures\ORM;
+namespace SCLeague\SeasonBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Proxies\__CG__\Self\SeasonBundle\Entity\Season;
+use Proxies\__CG__\SCLeague\SeasonBundle\Entity\Season;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

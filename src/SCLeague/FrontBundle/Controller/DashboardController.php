@@ -6,7 +6,7 @@
  * Time: 4:32 PM
  */
 
-namespace Self\FrontBundle\Controller;
+namespace SCLeague\FrontBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

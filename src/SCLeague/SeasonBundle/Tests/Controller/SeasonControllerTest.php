@@ -1,6 +1,6 @@
 <?php
 
-namespace Self\SeasonBundle\Tests\Controller;
+namespace SCLeague\SeasonBundle\Tests\Controller;
 
 use DateTime;
 use Liip\FunctionalTestBundle\Test\WebTestCase;

@@ -1,13 +1,14 @@
 <?php
 
-namespace Self\SeasonBundle\Tests\Model;
+namespace SCLeague\SeasonBundle\Tests\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit_Framework_TestCase;
-use Self\SeasonBundle\Entity\Division;
-use Self\SeasonBundle\Entity\Season;
-use Self\SeasonBundle\Entity\SeasonTeam;
-use Self\SeasonBundle\Model\SeasonManager;
-use Self\TeamBundle\Entity\Team;
+use SCLeague\SeasonBundle\Entity\Division;
+use SCLeague\SeasonBundle\Entity\Season;
+use SCLeague\SeasonBundle\Entity\SeasonTeam;
+use SCLeague\SeasonBundle\Model\SeasonManager;
+use SCLeague\TeamBundle\Entity\Team;
 
 class SeasonManagerTest extends PHPUnit_Framework_TestCase
 {
@@ -66,7 +67,10 @@ class SeasonManagerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($season, $seasonObject);
     }
 
-    public function testGetAllSeasonTeams() {
+    /**
+     * @test
+     */
+    public function it_should_return_all_season_teams() {
         $this->om->expects($this->any())
             ->method('getRepository')
             ->with($this->equalTo(static::SEASONTEAM_CLASS))
@@ -84,11 +88,14 @@ class SeasonManagerTest extends PHPUnit_Framework_TestCase
 
     }
 
-
-
-    public function testGetPreviousSeason() {
+    /**
+     * @test
+     */
+    public function it_should_() {
 
     }
+
+
 
 
 
@@ -101,23 +108,11 @@ class SeasonManagerTest extends PHPUnit_Framework_TestCase
 
     private function getSeasonTeams($maxSeasonTeams = 4)
     {
-        $seasonTeams[] = array();
+        $seasonTeams = array();
         for($i = 0; $i < $maxSeasonTeams; $i++) {
             $seasonTeams[] = $this->getSeasonTeam();
         }
-        return $seasonTeams;
-    }
-
-    private function getTeam()
-    {
-        $teamClass = static::TEAM_CLASS;
-        return new $teamClass();
-    }
-
-    private function getDivision()
-    {
-        $divisionClass = static::DIVISION_CLASS;
-        return new $divisionClass();
+        return new ArrayCollection($seasonTeams);
     }
 
     private function getSeasonTeam()

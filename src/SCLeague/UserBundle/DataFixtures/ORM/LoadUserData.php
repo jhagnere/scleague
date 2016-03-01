@@ -6,7 +6,7 @@
  * Time: 02:23
  */
 
-namespace Self\UserBundle\DataFixtures\ORM;
+namespace SCLeague\UserBundle\DataFixtures\ORM;
 
 
 use Doctrine\Common\DataFixtures\FixtureInterface;

@@ -2,22 +2,22 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="sonata.admin.division" class="Self\SeasonBundle\Admin\DivisionAdmin">
+        <service id="sonata.admin.division" class="SCLeague\SeasonBundle\Admin\DivisionAdmin">
             <tag name="sonata.admin" manager_type="orm" group="season" label="Division"/>
             <argument />
-            <argument>Self\SeasonBundle\Entity\Division</argument>
+            <argument>SCLeague\SeasonBundle\Entity\Division</argument>
             <argument />
             <call method="setTranslationDomain">
-                <argument>SelfSeasonBundle</argument>
+                <argument>SCLeagueSeasonBundle</argument>
             </call>
         </service>
-        <service id="sonata.admin.season" class="Self\SeasonBundle\Admin\SeasonAdmin">
+        <service id="sonata.admin.season" class="SCLeague\SeasonBundle\Admin\SeasonAdmin">
             <tag name="sonata.admin" manager_type="orm" group="season" label="Season"/>
             <argument />
-            <argument>Self\SeasonBundle\Entity\Season</argument>
-            <argument>SelfSeasonBundle:Season</argument>
+            <argument>SCLeague\SeasonBundle\Entity\Season</argument>
+            <argument>SCLeagueSeasonBundle:Season</argument>
             <call method="setTranslationDomain">
-                <argument>SelfSeasonBundle</argument>
+                <argument>SCLeagueSeasonBundle</argument>
             </call>
         </service>
     </services>

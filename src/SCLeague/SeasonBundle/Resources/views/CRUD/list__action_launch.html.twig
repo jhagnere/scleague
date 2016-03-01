@@ -1,6 +1,6 @@
 {% if admin.isGranted('LAUNCH', object) and admin.hasRoute('launch') %}
-    <a href="{{ admin.generateObjectUrl('launch', object) }}" class="btn btn-sm btn-default launch_link" title="{{ 'action_launch'|trans({}, 'SelfSeasonBundle') }}">
+    <a href="{{ admin.generateObjectUrl('launch', object) }}" class="btn btn-sm btn-default launch_link" title="{{ 'action_launch'|trans({}, 'SCLeagueSeasonBundle') }}">
         <i class="fa fa-cogs"></i>
-        {{ 'action_launch'|trans({}, 'SelfSeasonBundle') }}
+        {{ 'action_launch'|trans({}, 'SCLeagueSeasonBundle') }}
     </a>
 {% endif %}

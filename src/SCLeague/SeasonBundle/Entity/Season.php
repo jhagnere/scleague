@@ -1,6 +1,6 @@
 <?php
 
-namespace Self\SeasonBundle\Entity;
+namespace SCLeague\SeasonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

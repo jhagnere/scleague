@@ -1,8 +1,9 @@
 <?php
 
-namespace Self\SeasonBundle\Entity;
+namespace SCLeague\SeasonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use SCLeague\TeamBundle\Entity\Team;
 
 /**
  * SeasonTeam
@@ -54,7 +55,7 @@ class SeasonTeam
     private $ranking;
 
     /**
-     * @return int
+     * @return Team
      */
     public function getTeam()
     {
@@ -62,7 +63,7 @@ class SeasonTeam
     }
 
     /**
-     * @param int $team
+     * @param Team $team
      */
     public function setTeam($team)
     {
@@ -107,7 +108,7 @@ class SeasonTeam
     }
 
     /**
-     * @return int
+     * @return Season
      */
     public function getSeason()
     {
@@ -115,7 +116,7 @@ class SeasonTeam
     }
 
     /**
-     * @param int $season
+     * @param Season $season
      */
     public function setSeason($season)
     {
@@ -123,7 +124,7 @@ class SeasonTeam
     }
 
     /**
-     * @return int
+     * @return Division
      */
     public function getDivision()
     {
@@ -131,16 +132,11 @@ class SeasonTeam
     }
 
     /**
-     * @param int $division
+     * @param Division $division
      */
     public function setDivision($division)
     {
         $this->division = $division;
-    }
-
-    function __toString()
-    {
-        return $this->season.'.'.$this->division.'.'.$this->team;
     }
 
 

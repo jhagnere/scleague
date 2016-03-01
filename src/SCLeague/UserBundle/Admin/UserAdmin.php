@@ -1,6 +1,6 @@
 <?php
 
-namespace Self\UserBundle\Admin;
+namespace SCLeague\UserBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;

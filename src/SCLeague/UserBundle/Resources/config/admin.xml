@@ -4,14 +4,14 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-         <service id="sonata.demo.admin.user" class="Self\UserBundle\Admin\UserAdmin">
+         <service id="sonata.demo.admin.user" class="SCLeague\UserBundle\Admin\UserAdmin">
             <tag name="sonata.admin" manager_type="orm" group="administration" label="Users" />
 
             <argument />
-            <argument>Self\UserBundle\Entity\User</argument>
+            <argument>SCLeague\UserBundle\Entity\User</argument>
             <argument />
             <call method="setTranslationDomain">
-                <argument>SelfUserBundle</argument>
+                <argument>SCLeagueUserBundle</argument>
             </call>
         </service>
     </services>

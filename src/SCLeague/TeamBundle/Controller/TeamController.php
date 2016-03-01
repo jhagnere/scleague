@@ -1,9 +1,9 @@
 <?php
 
-namespace Self\TeamBundle\Controller;
+namespace SCLeague\TeamBundle\Controller;
 
-use Self\TeamBundle\Entity\Team;
-use Self\TeamBundle\Form\Type\TeamType;
+use SCLeague\TeamBundle\Entity\Team;
+use SCLeague\TeamBundle\Form\Type\TeamType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

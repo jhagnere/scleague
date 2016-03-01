@@ -6,12 +6,12 @@
  * Time: 00:00
  */
 
-namespace Self\SeasonBundle\DataFixtures\ORM;
+namespace SCLeague\SeasonBundle\DataFixtures\ORM;
 
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Self\SeasonBundle\Entity\Division;
+use SCLeague\SeasonBundle\Entity\Division;
 
 class LoadDivisionData implements FixtureInterface
 {

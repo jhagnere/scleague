@@ -1,5 +1,5 @@
 <?php
-namespace Self\FrontBundle\Menu;
+namespace SCLeague\FrontBundle\Menu;
 
 
 use Knp\Menu\FactoryInterface;
