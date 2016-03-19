@@ -8,7 +8,7 @@ use SCLeague\TeamBundle\Entity\Team;
 /**
  * SeasonTeam
  *
- * @ORM\Table()
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="season_team_unique", columns={"seasonId", "teamId"})}))
  * @ORM\Entity(repositoryClass="SCLeague\SeasonBundle\Entity\SeasonTeamRepository")
  */
 class SeasonTeam

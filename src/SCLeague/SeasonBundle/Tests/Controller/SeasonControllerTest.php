@@ -60,7 +60,7 @@ class SeasonControllerTest extends WebTestCase
         $route =  $this->getUrl('admin_self_season_season_list');
         $crawler = $this->client->request('GET', $route);
         $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode(), "Unexpected HTTP status code for GET admin/sef/season/season/list");
+        $this->assertEquals(200, $response->getStatusCode(), "Unexpected HTTP status code for GET admin/self/season/season/list");
 
         $crawler = $this->client->click($crawler->selectLink('Launch')->link());
     }

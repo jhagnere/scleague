@@ -4,19 +4,19 @@ namespace SCLeague\SeasonBundle\Tests\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit_Framework_TestCase;
-use SCLeague\SeasonBundle\Entity\Division;
-use SCLeague\SeasonBundle\Entity\Season;
-use SCLeague\SeasonBundle\Entity\SeasonTeam;
 use SCLeague\SeasonBundle\Model\SeasonManager;
-use SCLeague\TeamBundle\Entity\Team;
+use SCLeague\SeasonBundle\Tests\Entity\DummyDivision;
 
+/**
+ * @coversDefaultClass \SCLeague\SeasonBundle\Model\SeasonManager
+ */
 class SeasonManagerTest extends PHPUnit_Framework_TestCase
 {
 
-    const SEASON_CLASS = 'SCLeague\SeasonBundle\Tests\Model\DummySeason';
-    const TEAM_CLASS = 'SCLeague\SeasonBundle\Tests\Model\DummyTeam';
-    const DIVISION_CLASS = 'SCLeague\SeasonBundle\Tests\Model\DummyDivision';
-    const SEASONTEAM_CLASS = 'SCLeague\SeasonBundle\Tests\Model\DummySeasonTeam';
+    const SEASON_CLASS = 'SCLeague\SeasonBundle\Tests\Entity\DummySeason';
+    const TEAM_CLASS = 'SCLeague\SeasonBundle\Tests\Entity\DummyTeam';
+    const DIVISION_CLASS = 'SCLeague\SeasonBundle\Tests\Entity\DummyDivision';
+    const SEASONTEAM_CLASS = 'SCLeague\SeasonBundle\Tests\Entity\DummySeasonTeam';
 
 
     /**
@@ -35,12 +35,8 @@ class SeasonManagerTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Doctrine Common has to be installed for this test to run');
         }
 
-        $class = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
         $this->om = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
         $this->repository = $this->getMock('Doctrine\Common\Persistence\ObjectRepository');
-
-
-
 
 
         $this->seasonManager = $this->createSeasonManager($this->om);
@@ -48,8 +44,30 @@ class SeasonManagerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers ::getSeason
      */
-    public function it_should_return_seasons() {
+    public function it_should_return_null_when_no_previous_season() {
+        $this->om->expects($this->any())
+            ->method('getRepository')
+            ->with($this->equalTo(static::SEASON_CLASS))
+            ->will($this->returnValue($this->repository));
+
+        $id = 0;
+        $this->repository->expects($this->once())
+            ->method('find')
+            ->with($id)
+            ->will($this->returnValue(null));
+
+        $season = $this->seasonManager->getSeason($id);
+        $this->assertNull($season);
+    }
+
+
+    /**
+     * @test
+     * @covers ::getSeason
+     */
+    public function it_should_return_a_season() {
         $this->om->expects($this->any())
             ->method('getRepository')
             ->with($this->equalTo(static::SEASON_CLASS))
@@ -69,6 +87,7 @@ class SeasonManagerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers ::getSeasonTeams
      */
     public function it_should_return_all_season_teams() {
         $this->om->expects($this->any())
@@ -85,20 +104,70 @@ class SeasonManagerTest extends PHPUnit_Framework_TestCase
         $all = $this->seasonManager->getSeasonTeams($season);
 
         $this->assertEquals($seasonTeams, $all);
+    }
 
+    /**
+     * @test
+     * @covers ::getDivisions
+     */
+    public function it_should_return_all_divisions() {
+        $this->om->expects($this->any())
+            ->method('getRepository')
+            ->with($this->equalTo(static::DIVISION_CLASS))
+            ->will($this->returnValue($this->repository));
+
+        $divisions = $this->getDivisions();
+        $this->repository->expects($this->once())
+            ->method('findAll')
+            ->will($this->returnValue($divisions));
+
+        $allDivisions = $this->seasonManager->getDivisions();
+        $this->assertEquals($divisions, $allDivisions);
+    }
+
+    /**
+     * @test
+     *
+     */
+    public function it_should_return_the_next_division() {
+
+        $divisions = $this->setupDivision();
+        $nextDivision = $this->invokeMethod($this->seasonManager, 'getNextDivision' , array($divisions, 'Platinum'));
+        $this->assertEquals($nextDivision->getName(), 'Diamond');
     }
 
     /**
      * @test
      */
-    public function it_should_() {
+    public function it_should_return_the_current_division() {
 
+        $divisions = $this->setupDivision();
+        $currentDivision = $this->invokeMethod($this->seasonManager, 'getCurrentDivision', array($divisions, 'Diamond'));
+        $this->assertEquals($currentDivision, $divisions->get(0));
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_return_the_previous_division() {
+
+        $divisions = $this->setupDivision();
+        $previousDivision = $this->invokeMethod($this->seasonManager, 'getPreviousDivision', array($divisions, 'Master'));
+        $this->assertEquals($previousDivision->getName(), 'Diamond');
     }
 
 
 
 
 
+    private function getDivisions()
+    {
+        $divisions = array();
+        for($i = 0; $i < 3; $i++) {
+            $divisions[] = $this->getDivision();
+        }
+        return $divisions;
+    }
 
     private function getSeason()
     {
@@ -126,20 +195,43 @@ class SeasonManagerTest extends PHPUnit_Framework_TestCase
         return new SeasonManager($objectManager, static::SEASON_CLASS, static::TEAM_CLASS, static::DIVISION_CLASS, static::SEASONTEAM_CLASS);
     }
 
+    private function getDivision()
+    {
+        $divisionClass = static::DIVISION_CLASS;
+        return new $divisionClass();
+    }
 
-}
+    private function setupDivision()
+    {
+        $masterDivision = new DummyDivision();
+        $masterDivision->setName('Master');
+        $diamondDivision = new DummyDivision();
+        $diamondDivision->setName('Diamond');
+        $diamondDivision->setNextDivision($masterDivision);
+        $platinumDivision = new DummyDivision();
+        $platinumDivision->setName('Platinum');
+        $platinumDivision->setNextDivision($diamondDivision);
 
-class DummySeason extends Season
-{
-}
+        return new ArrayCollection(array($diamondDivision, $masterDivision, $platinumDivision));
+    }
 
-class DummyTeam extends Team
-{
-}
+    /**
+     * Call protected/private method of a class.
+     *
+     * @param object &$object    Instantiated object that we will run method on.
+     * @param string $methodName Method name to call
+     * @param array  $parameters Array of parameters to pass into method.
+     *
+     * @return mixed Method return.
+     */
+    public function invokeMethod(&$object, $methodName, array $parameters = array())
+    {
+        $reflection = new \ReflectionClass(get_class($object));
+        $method = $reflection->getMethod($methodName);
+        $method->setAccessible(true);
 
-class DummyDivision extends Division
-{
-}
-class DummySeasonTeam extends SeasonTeam
-{
+        return $method->invokeArgs($object, $parameters);
+    }
+
+
 }

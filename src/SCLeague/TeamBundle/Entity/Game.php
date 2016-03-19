@@ -3,6 +3,7 @@
 namespace SCLeague\TeamBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use SCLeague\SeasonBundle\Entity\Season;
 
 /**
  * Game
@@ -27,7 +28,7 @@ class Game
      * @ORM\ManyToOne(targetEntity="SCLeague\SeasonBundle\Entity\Season")
      * @ORM\JoinColumn(name="seasonId", referencedColumnName="id")
      */
-    private $seasonId;
+    private $season;
 
     /**
      * @var \DateTime
@@ -42,7 +43,7 @@ class Game
      * @ORM\ManyToOne(targetEntity="Team")
      * @ORM\JoinColumn(name="teamIdHome", referencedColumnName="id")
      **/
-    private $teamIdHome;
+    private $teamHome;
 
     /**
      * @var Team
@@ -50,7 +51,7 @@ class Game
      * @ORM\ManyToOne(targetEntity="Team")
      * @ORM\JoinColumn(name="teamIdAway", referencedColumnName="id")
      **/
-    private $teamIdAway;
+    private $teamAway;
 
     /**
      * @var integer
@@ -87,12 +88,12 @@ class Game
     /**
      * Set seasonId
      *
-     * @param integer $seasonId
+     * @param Season $season
      * @return Game
      */
-    public function setSeasonId($seasonId)
+    public function setSeason($season)
     {
-        $this->seasonId = $seasonId;
+        $this->season = $season;
 
         return $this;
     }
@@ -100,11 +101,11 @@ class Game
     /**
      * Get seasonId
      *
-     * @return integer 
+     * @return Season
      */
-    public function getSeasonId()
+    public function getSeason()
     {
-        return $this->seasonId;
+        return $this->season;
     }
 
     /**
@@ -131,49 +132,49 @@ class Game
     }
 
     /**
-     * Set teamIdHome
+     * Set teamHome
      *
-     * @param integer $teamIdHome
+     * @param Team $teamHome
      * @return Game
      */
-    public function setTeamIdHome($teamIdHome)
+    public function setTeamHome($teamHome)
     {
-        $this->teamIdHome = $teamIdHome;
+        $this->teamHome = $teamHome;
 
         return $this;
     }
 
     /**
-     * Get teamIdHome
+     * Get teamHome
      *
      * @return integer 
      */
-    public function getTeamIdHome()
+    public function getTeamHome()
     {
-        return $this->teamIdHome;
+        return $this->teamHome;
     }
 
     /**
-     * Set teamIdAway
+     * Set teamAway
      *
-     * @param integer $teamIdAway
+     * @param Team $teamAway
      * @return Game
      */
-    public function setTeamIdAway($teamIdAway)
+    public function setTeamAway($teamAway)
     {
-        $this->teamIdAway = $teamIdAway;
+        $this->teamAway = $teamAway;
 
         return $this;
     }
 
     /**
-     * Get teamIdAway
+     * Get teamAway
      *
-     * @return integer 
+     * @return Team
      */
-    public function getTeamIdAway()
+    public function getTeamAway()
     {
-        return $this->teamIdAway;
+        return $this->teamAway;
     }
 
     /**

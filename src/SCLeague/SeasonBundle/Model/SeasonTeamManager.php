@@ -10,13 +10,11 @@ namespace SCLeague\SeasonBundle\Model;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use SCLeague\SeasonBundle\Entity\Division;
 use SCLeague\SeasonBundle\Entity\Season;
 use SCLeague\SeasonBundle\Entity\SeasonTeam;
-use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\ExpressionLanguage\Tests\Node\Obj;
 
 class SeasonTeamManager implements TeamManagerInterface
 {
@@ -49,6 +47,7 @@ class SeasonTeamManager implements TeamManagerInterface
     /**
      * Create the new entities to persist in DB concerning the season
      * @param Season $season
+     * @throws \Exception $e
      */
     public function manageTeamsForSeason(Season $season)
     {
@@ -63,11 +62,11 @@ class SeasonTeamManager implements TeamManagerInterface
                     $st->setTeam($team);
                     $st->setSeason($season);
                     $this->entityManager->persist($st);
-
                 }
                 $this->entityManager->flush();
-            } catch (Exception $e) {
-                echo $e->getMessage();
+            } catch (\Exception $e) {
+                    // log season is already register OR fail
+                    throw $e;
             }
         }
 
@@ -80,7 +79,7 @@ class SeasonTeamManager implements TeamManagerInterface
      * @return Division
      *
      */
-    private function extractDivision($divisionName)
+    public function extractDivision($divisionName)
     {
         return $this->divisions->filter(
         /**

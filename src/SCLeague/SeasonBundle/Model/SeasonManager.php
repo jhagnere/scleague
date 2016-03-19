@@ -5,6 +5,8 @@ namespace SCLeague\SeasonBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use SCLeague\SeasonBundle\Entity\Division;
+use SCLeague\SeasonBundle\Entity\Season;
 
 class SeasonManager implements SeasonManagerInterface
 {
@@ -17,9 +19,6 @@ class SeasonManager implements SeasonManagerInterface
 
     const UPGRADE_TEAM_NUMBER = 2;
     const DOWNGRADE_TEAM_NUMBER = 2;
-
-    private $divisions = array();
-
 
     public function __construct(ObjectManager $om, $seasonClass, $teamClass, $divisionClass, $seasonTeamClass)
     {
@@ -37,29 +36,35 @@ class SeasonManager implements SeasonManagerInterface
      */
     public function launchSeason($id)
     {
-        $this->divisions = new ArrayCollection($this->getDivisions());
-        $season = $this->getSeason($id);
-        $previousSeason = $this->getPreviousSeason((int) $id - 1);
-        $seasonTeams =  new ArrayCollection($this->getSeasonTeams($previousSeason));
-        $arrayByDivisions = array();
 
+        $previousSeason = $this->getSeason((int) $id - 1);
+        // Case of previous season already exist
+        if ($previousSeason != null) {
+            $season = $this->getSeason($id);
+            $divisions = new ArrayCollection($this->getDivisions());
+            $seasonTeams =  new ArrayCollection($this->getSeasonTeams($previousSeason));
 
-       // Create an array with division name keys to help slice after
-        foreach ($seasonTeams as $seasonTeam) {
-            $arrayByDivisions[$seasonTeam->getDivision()->getName()][$seasonTeam->getRanking()] = $seasonTeam->getTeam();
+            $teamsByDivision = array();
+            // Create an array with division name keys to help slice after
+            foreach ($seasonTeams as $seasonTeam) {
+                $teamsByDivision[$seasonTeam->getDivision()->getName()][$seasonTeam->getRanking()] = $seasonTeam->getTeam();
+            }
+            $stm = new SeasonTeamManager($divisions, $this->om);
+
+            // We stock the last x and best x to make them up/down division for the next season
+            foreach ($teamsByDivision as $division => $team) {
+                $nbToKeepInDivision = (int) count($team) - (self::UPGRADE_TEAM_NUMBER + self::DOWNGRADE_TEAM_NUMBER);
+                $stm->addTeam(new ArrayCollection(array_slice($team, 0, self::UPGRADE_TEAM_NUMBER)), $this->getNextDivision($divisions, $division));
+                $stm->addTeam(new ArrayCollection(array_slice($team, self::UPGRADE_TEAM_NUMBER, $nbToKeepInDivision)), $this->getCurrentDivision($divisions, $division));
+                $stm->addTeam(new ArrayCollection(array_slice($team, -(self::DOWNGRADE_TEAM_NUMBER), self::DOWNGRADE_TEAM_NUMBER)), $this->getPreviousDivision($divisions, $division));
+
+                $stm->manageTeamsForSeason($season);
+            }
+        } else {
+            // Case for the first season
         }
 
-        $stm = new SeasonTeamManager($this->divisions, $this->om);
-        
-        // We stock the last x and best x to make them up/down division for the next season
-        foreach ($arrayByDivisions as $division => $team) {
-            $nbToKeepInDivision = (int) count($team) - (self::UPGRADE_TEAM_NUMBER + self::DOWNGRADE_TEAM_NUMBER);
-            $stm->addTeam(new ArrayCollection(array_slice($team, 0, self::UPGRADE_TEAM_NUMBER)), $this->getNextDivision($division));
-            $stm->addTeam(new ArrayCollection(array_slice($team, self::UPGRADE_TEAM_NUMBER, $nbToKeepInDivision)), $this->getCurrentDivision($division));
-            $stm->addTeam(new ArrayCollection(array_slice($team, -(self::DOWNGRADE_TEAM_NUMBER), self::DOWNGRADE_TEAM_NUMBER)), $this->getPreviousDivision($division));
 
-            $stm->manageTeamsForSeason($season);
-        }
 
         //@TODO : Generate matches base on team in the same division
 
@@ -83,9 +88,17 @@ class SeasonManager implements SeasonManagerInterface
          */
     }
 
+    /**
+     * @param $id
+     * @return Season $season
+     */
     public function getSeason($id)
     {
-        return $this->om->getRepository($this->seasonClass)->find($id);
+        $season = $this->om->getRepository($this->seasonClass)->find($id);
+        if ($season === null) {
+            // log season doesn't exist to retrieved season with id : ".$id);
+        }
+        return $season;
     }
 
     public function getDivisions()
@@ -99,9 +112,9 @@ class SeasonManager implements SeasonManagerInterface
         return $this->om->getRepository($this->seasonTeamClass)->findBy(array('season' => $season), array('division' => 'ASC', 'ranking' => 'ASC' ));
     }
 
-    public function getNextDivision($division)
+    private function getNextDivision(ArrayCollection $divisions, $division)
     {
-         $next = $this->divisions->filter(function ($entry) use ($division) {
+         $next = $divisions->filter(function (Division $entry) use ($division) {
             if ($entry->getName() == $division) {
                 return $entry;
             }
@@ -109,26 +122,22 @@ class SeasonManager implements SeasonManagerInterface
         return $next->first()->getNextDivision();
     }
 
-    private function getCurrentDivision($division)
+    private function getCurrentDivision(ArrayCollection $divisions, $division)
     {
-        return $this->divisions->filter(function ($entry) use ($division) {
+        return $divisions->filter(function (Division $entry) use ($division) {
             if ($entry->getName() == $division) {
                 return $entry;
             }
         })->first();
     }
 
-    private function getPreviousDivision($division)
+    private function getPreviousDivision(ArrayCollection $divisions, $division)
     {
-        return $this->divisions->filter(function ($entry) use ($division) {
+        return $divisions->filter(function (Division $entry) use ($division) {
             if ($entry->getNextDivision() != null && $entry->getNextDivision()->getName() == $division) {
                 return $entry;
             }
         })->first();
     }
 
-    private function getPreviousSeason($id)
-    {
-        return $this->om->getRepository($this->seasonClass)->find($id);
-    }
 }
