@@ -26,10 +26,16 @@ class GameManager
         $game->setSeason($season);
         $game->setTeamHome($teamHome);
         $game->setTeamAway($teamAway);
+        $game->setChannel($teamHome->getShortName().'vs'.$teamAway->getShortName());
 
         return $game;
     }
 
+    /**
+     * @param $teams
+     * @param $season
+     * @return ArrayCollection Games
+     */
     public function generateAllGames($teams, $season)
     {
         $games = new ArrayCollection();
@@ -115,6 +121,56 @@ class GameManager
         }
 
         return $gamesPerWeek;
+    }
+
+    public function generateDatesForGames(ArrayCollection $gamesPerDate, Season $season)
+    {
+        try {
+            $dates = array();
+            $countNbOfGames = $gamesPerDate->count();
+            $seasonStartDate = $season->getStartDate()->getTimestamp();
+            $seasonOfficialStartDate = new \DateTime();
+            $seasonOfficialStartDate->setTimestamp($seasonStartDate);
+            $seasonOfficialStartDate->add(new \DateInterval('P3D'));
+            $interval = $seasonOfficialStartDate->diff($season->getEndDate());
+            $aGameEveryXDay = intval($interval->days / $countNbOfGames);
+            for ($i = 0; $i < $countNbOfGames; $i++) {
+                    $newDate = $seasonOfficialStartDate->add(new \DateInterval('P' . $aGameEveryXDay . 'D'))->getTimestamp();
+                    $dates[$i] = new \DateTime();
+                    $dates[$i]->setTimestamp($newDate);
+
+            }
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            exit(1);
+        }
+        return $dates;
+    }
+
+    public function addDateToGames(&$gamesPerDate, $dates)
+    {
+        foreach ($gamesPerDate as $key => $gamePerWeek) {
+            foreach($gamePerWeek as $game) {
+                $game->setGameDate($dates[$key]);
+            }
+        }
+    }
+
+    public function persistGames($gamesPerDate)
+    {
+        try {
+            foreach ($gamesPerDate as $key => $gamePerWeek) {
+                /** @var $game Game */
+                foreach ($gamePerWeek as $game) {
+                    $this->entityManager->persist($game);
+                }
+            }
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            exit(1);
+        }
+
     }
 
 

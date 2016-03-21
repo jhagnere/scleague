@@ -61,9 +61,9 @@ class SeasonTeamManager implements TeamManagerInterface
                     $st->setRanking($ranking++);
                     $st->setTeam($team);
                     $st->setSeason($season);
-                    $this->entityManager->persist($st);
+//                    $this->entityManager->persist($st);
                 }
-                $this->entityManager->flush();
+//                $this->entityManager->flush();
             } catch (\Exception $e) {
                     // log season is already register OR fail
                     throw $e;
@@ -86,10 +86,11 @@ class SeasonTeamManager implements TeamManagerInterface
          * @param Division $entry
          * @return Division
          */
-            function ($entry) use ($divisionName) {
+            function (Division $entry) use ($divisionName) {
                 if ($divisionName == $entry->getName()) {
                     return $entry;
                 }
+
         })->first();
     }
 

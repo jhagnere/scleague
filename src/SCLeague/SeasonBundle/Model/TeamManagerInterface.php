@@ -16,7 +16,8 @@ interface TeamManagerInterface
 
     /**
      * Create the new entities to persist in DB concerning the season
-     *
+     * @param Season $season
+     * @return
      */
     public function manageTeamsForSeason(Season $season);
 

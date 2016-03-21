@@ -4,8 +4,11 @@ namespace SCLeague\SeasonBundle\Tests\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit_Framework_TestCase;
+use SCLeague\SeasonBundle\Entity\SeasonTeam;
 use SCLeague\SeasonBundle\Model\SeasonManager;
 use SCLeague\SeasonBundle\Tests\Entity\DummyDivision;
+use SCLeague\SeasonBundle\Tests\Entity\DummySeason;
+use SCLeague\SeasonBundle\Tests\Entity\DummyTeam;
 
 /**
  * @coversDefaultClass \SCLeague\SeasonBundle\Model\SeasonManager
@@ -156,7 +159,28 @@ class SeasonManagerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($previousDivision->getName(), 'Diamond');
     }
 
+    /**
+     * @test
+     */
+    public function it_should_return_all_teams_by_division() {
+        $this->om->expects($this->any())
+            ->method('getRepository')
+            ->with($this->equalTo(static::SEASONTEAM_CLASS))
+            ->will($this->returnValue($this->repository));
 
+        $seasonsTeams = $this->getSeasonTeams();
+        /** @var SeasonTeam $seasonTeam */
+        foreach ($seasonsTeams as $seasonTeam) {
+            $seasonTeam->setTeam(new DummyTeam());
+        }
+        $this->repository->expects($this->atLeastOnce())
+            ->method('findBy')
+            ->will($this->returnValue($seasonsTeams));
+
+        $teams = $this->seasonManager->getAllTeamsForDivision(new DummyDivision(), new DummySeason());
+        $this->assertContainsOnlyInstancesOf('\SCLeague\SeasonBundle\Tests\Entity\DummyTeam', $teams);
+    }
+    
 
 
 

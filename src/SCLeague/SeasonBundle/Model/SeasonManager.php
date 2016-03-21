@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use SCLeague\SeasonBundle\Entity\Division;
 use SCLeague\SeasonBundle\Entity\Season;
+use SCLeague\SeasonBundle\Entity\SeasonTeam;
+use SCLeague\TeamBundle\Model\GameManager;
 
 class SeasonManager implements SeasonManagerInterface
 {
@@ -19,6 +21,7 @@ class SeasonManager implements SeasonManagerInterface
 
     const UPGRADE_TEAM_NUMBER = 2;
     const DOWNGRADE_TEAM_NUMBER = 2;
+
 
     public function __construct(ObjectManager $om, $seasonClass, $teamClass, $divisionClass, $seasonTeamClass)
     {
@@ -38,6 +41,7 @@ class SeasonManager implements SeasonManagerInterface
     {
 
         $previousSeason = $this->getSeason((int) $id - 1);
+        $gameManager = new GameManager($this->om);
         // Case of previous season already exist
         if ($previousSeason != null) {
             $season = $this->getSeason($id);
@@ -60,20 +64,36 @@ class SeasonManager implements SeasonManagerInterface
 
                 $stm->manageTeamsForSeason($season);
             }
+            // Generate matches base on team in the same division
+            foreach ($divisions as $division) {
+                try {
+                    $teams = $this->getAllTeamsForDivision($division, $season);
+                    if (count($teams) >= 2 ) {
+                        $games = $gameManager->generateAllGames($teams, $season);
+                        $gamesPerDate = $gameManager->sortGamesPerDate($games, count($teams));
+                        $dates = $gameManager->generateDatesForGames($gamesPerDate, $season);
+                        $gameManager->addDateToGames($gamesPerDate, $dates);
+                        $gameManager->persistGames($gamesPerDate);
+                    }
+                } catch (\Exception $e) {
+                    echo $e->getMessage();
+                    exit(1);
+                }
+            }
         } else {
             // Case for the first season
         }
 
 
 
-        //@TODO : Generate matches base on team in the same division
+
+
 
 
 
 
         /**
          * @TODO : Case No upper div and lower div
-         * @TODO : case of season 1 ??
          *
          */
         return 'Season Launched';
@@ -138,6 +158,22 @@ class SeasonManager implements SeasonManagerInterface
                 return $entry;
             }
         })->first();
+    }
+
+    /**
+     * @param Division $division
+     * @param Season $season
+     * @return array of Teams
+     */
+    public function getAllTeamsForDivision($division, $season)
+    {
+        $teams = array();
+        $listSeasonTeams =  $this->om->getRepository($this->seasonTeamClass)->findBy(array('season' => $season, 'division' => $division));
+        /** @var SeasonTeam $seasonTeams */
+        foreach ($listSeasonTeams as $seasonTeams) {
+            $teams[] = $seasonTeams->getTeam();
+        }
+        return $teams;
     }
 
 }

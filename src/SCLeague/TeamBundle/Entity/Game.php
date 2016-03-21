@@ -8,7 +8,7 @@ use SCLeague\SeasonBundle\Entity\Season;
 /**
  * Game
  *
- * @ORM\Table()
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="season_game_unique", columns={"seasonId", "teamIdHome", "teamIdAway"})}))
  * @ORM\Entity(repositoryClass="SCLeague\TeamBundle\Entity\GameRepository")
  */
 class Game
@@ -56,14 +56,14 @@ class Game
     /**
      * @var integer
      *
-     * @ORM\Column(name="scoreHome", type="integer")
+     * @ORM\Column(name="scoreHome", type="integer", nullable=true)
      */
     private $scoreHome;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="scoreAway", type="integer")
+     * @ORM\Column(name="scoreAway", type="integer", nullable=true)
      */
     private $scoreAway;
 
