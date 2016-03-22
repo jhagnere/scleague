@@ -61,9 +61,9 @@ class SeasonTeamManager implements TeamManagerInterface
                     $st->setRanking($ranking++);
                     $st->setTeam($team);
                     $st->setSeason($season);
-//                    $this->entityManager->persist($st);
+                    $this->entityManager->persist($st);
                 }
-//                $this->entityManager->flush();
+                $this->entityManager->flush();
             } catch (\Exception $e) {
                     // log season is already register OR fail
                     throw $e;
