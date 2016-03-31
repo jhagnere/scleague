@@ -8,6 +8,7 @@ use SCLeague\SeasonBundle\Entity\SeasonTeam;
 use SCLeague\SeasonBundle\Model\SeasonManager;
 use SCLeague\SeasonBundle\Tests\Entity\DummyDivision;
 use SCLeague\SeasonBundle\Tests\Entity\DummySeason;
+use SCLeague\SeasonBundle\Tests\Entity\DummySeasonTeam;
 use SCLeague\SeasonBundle\Tests\Entity\DummyTeam;
 
 /**
@@ -180,6 +181,45 @@ class SeasonManagerTest extends PHPUnit_Framework_TestCase
         $teams = $this->seasonManager->getAllTeamsForDivision(new DummyDivision(), new DummySeason());
         $this->assertContainsOnlyInstancesOf('\SCLeague\SeasonBundle\Tests\Entity\DummyTeam', $teams);
     }
+
+    /**
+     * @test
+     */
+    public function it_should_return_an_array_of_divisions_containing_teams() {
+
+        $dummySeasonTeam = new DummySeasonTeam();
+        $division = new DummyDivision();
+        $division->setName('Gold');
+        $dummySeasonTeam->setDivision($division);
+        $dummySeasonTeam->setTeam(new DummyTeam());
+        $dummySeasonTeam->setRanking(1);
+
+        $dummySeasonTeam2 = new DummySeasonTeam();
+        $dummySeasonTeam2->setDivision($division);
+        $dummySeasonTeam2->setTeam(new DummyTeam());
+        $dummySeasonTeam2->setRanking(2);
+
+        $dummySeasonTeam3 = new DummySeasonTeam();
+        $dummySeasonTeam3->setDivision($division);
+        $dummySeasonTeam3->setTeam(new DummyTeam());
+        $dummySeasonTeam3->setRanking(3);
+        
+        $this->om->expects($this->any())
+            ->method('getRepository')
+            ->with($this->equalTo(static::SEASONTEAM_CLASS))
+            ->will($this->returnValue($this->repository));
+
+        $this->repository->expects($this->atLeastOnce())
+            ->method('findBy')
+            ->will($this->returnValue(array($dummySeasonTeam, $dummySeasonTeam2, $dummySeasonTeam3)));
+        
+        $teamsByDivision = $this->seasonManager->sortTeamByDivision(new DummySeason());
+        foreach($teamsByDivision as $team) {
+            $this->assertContainsOnlyInstancesOf('SCLeague\SeasonBundle\Tests\Entity\DummyTeam', $team);
+        }
+
+    }
+    
     
 
 

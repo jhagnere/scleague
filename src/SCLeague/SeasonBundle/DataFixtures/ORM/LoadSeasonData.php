@@ -20,8 +20,8 @@ class LoadSeasonData implements FixtureInterface, ContainerAwareInterface
     public function load(ObjectManager $manager)
     {
         $season = new Season();
-        $season->setStartDate(new DateTime('NOW'));
-        $season->setEndDate(new DateTime('NOW + 2 months'));
+        $season->setStartDate(new \DateTime('NOW'));
+        $season->setEndDate(new \DateTime('NOW + 2 months'));
         $season->setName('Season Test');
         $season->setActive(true);
         $manager->persist($season);

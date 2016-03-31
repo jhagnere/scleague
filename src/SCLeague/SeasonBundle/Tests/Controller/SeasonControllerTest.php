@@ -13,11 +13,11 @@ class SeasonControllerTest extends WebTestCase
     private $client = null;
 
 
-    public function setUp($classes)
+    public function setUp()
     {
         $classes = array(
-            'SCLeague\SeasonBundle\DataFixtures\ORM\LoadDivisionData.php',
-            'SCLeague\SeasonBundle\DataFixtures\ORM\LoadSeasonData.php',
+            'SCLeague\SeasonBundle\DataFixtures\ORM\LoadDivisionData',
+            'SCLeague\SeasonBundle\DataFixtures\ORM\LoadSeasonData',
             'SCLeague\UserBundle\DataFixtures\ORM\LoadUserData'
         );
         $this->loadFixtures($classes);
@@ -27,7 +27,7 @@ class SeasonControllerTest extends WebTestCase
 
 
     public function testSeasonCreate() {
-        $route =  $this->getUrl('admin_self_season_season_list');
+        $route =  $this->getUrl('admin_scleague_season_season_list');
         $crawler = $this->client->request('GET', $route);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode(), "Unexpected HTTP status code for GET admin/sef/season/season/list");
@@ -56,8 +56,7 @@ class SeasonControllerTest extends WebTestCase
     }
 
     public function testSeasonLaunch() {
-
-        $route =  $this->getUrl('admin_self_season_season_list');
+        $route =  $this->getUrl('admin_scleague_season_season_list');
         $crawler = $this->client->request('GET', $route);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode(), "Unexpected HTTP status code for GET admin/self/season/season/list");

@@ -40,40 +40,32 @@ class SeasonManager implements SeasonManagerInterface
     public function launchSeason($id)
     {
 
-        $previousSeason = $this->getSeason((int) $id - 1);
+        $previousSeason = $this->getSeason((int)$id - 1);
         $gameManager = new GameManager($this->om);
         // Case of previous season already exist
         if ($previousSeason != null) {
             $season = $this->getSeason($id);
             $divisions = new ArrayCollection($this->getDivisions());
-            $seasonTeams =  new ArrayCollection($this->getSeasonTeams($previousSeason));
 
-            $teamsByDivision = array();
-            // Create an array with division name keys to help slice after
-            foreach ($seasonTeams as $seasonTeam) {
-                $teamsByDivision[$seasonTeam->getDivision()->getName()][$seasonTeam->getRanking()] = $seasonTeam->getTeam();
-            }
             $stm = new SeasonTeamManager($divisions, $this->om);
 
+            $teamsByDivision = $this->sortTeamByDivision($previousSeason);
+            $this->organizeTeamsForNextSeason($divisions,$stm,$teamsByDivision);
+            $stm->manageTeamsForSeason($season);
             // We stock the last x and best x to make them up/down division for the next season
-            foreach ($teamsByDivision as $division => $team) {
-                $nbToKeepInDivision = (int) count($team) - (self::UPGRADE_TEAM_NUMBER + self::DOWNGRADE_TEAM_NUMBER);
-                $stm->addTeam(new ArrayCollection(array_slice($team, 0, self::UPGRADE_TEAM_NUMBER)), $this->getNextDivision($divisions, $division));
-                $stm->addTeam(new ArrayCollection(array_slice($team, self::UPGRADE_TEAM_NUMBER, $nbToKeepInDivision)), $this->getCurrentDivision($divisions, $division));
-                $stm->addTeam(new ArrayCollection(array_slice($team, -(self::DOWNGRADE_TEAM_NUMBER), self::DOWNGRADE_TEAM_NUMBER)), $this->getPreviousDivision($divisions, $division));
 
-                $stm->manageTeamsForSeason($season);
-            }
             // Generate matches base on team in the same division
             foreach ($divisions as $division) {
                 try {
                     $teams = $this->getAllTeamsForDivision($division, $season);
-                    if (count($teams) >= 2 ) {
+                    if (count($teams) >= 2) {
                         $games = $gameManager->generateAllGames($teams, $season);
                         $gamesPerDate = $gameManager->sortGamesPerDate($games, count($teams));
                         $dates = $gameManager->generateDatesForGames($gamesPerDate, $season);
                         $gameManager->addDateToGames($gamesPerDate, $dates);
                         $gameManager->persistGames($gamesPerDate);
+                    } else {
+                        throw new \Exception('Not enough team to create games');
                     }
                 } catch (\Exception $e) {
                     echo $e->getMessage();
@@ -84,20 +76,15 @@ class SeasonManager implements SeasonManagerInterface
             // Case for the first season
         }
 
-
-
-
-
-
-
-
-
-        /**
-         * @TODO : Case No upper div and lower div
-         *
-         */
         return 'Season Launched';
     }
+
+
+
+
+
+
+
 
     public function closeSeason($id)
     {
@@ -107,6 +94,48 @@ class SeasonManager implements SeasonManagerInterface
          * @TODO : ??
          */
     }
+
+    /**
+     * @param ArrayCollection $divisions
+     * @param SeasonTeamManager $stm
+     * @param ArrayCollection $teamsByDivision
+     */
+    public function organizeTeamsForNextSeason(ArrayCollection $divisions, SeasonTeamManager &$stm, ArrayCollection $teamsByDivision) {
+
+        foreach ($teamsByDivision as $division => $team) {
+            $nbToKeepInDivision = (int)count($team) - (self::UPGRADE_TEAM_NUMBER + self::DOWNGRADE_TEAM_NUMBER);
+            if ($this->getNextDivision($divisions, $division) != null) {
+                $stm->addTeam(new ArrayCollection(array_slice($team, 0, self::UPGRADE_TEAM_NUMBER)), $this->getNextDivision($divisions, $division));
+            } else  {
+                // Case no upper division
+                $stm->addTeam(new ArrayCollection(array_slice($team, 0, self::UPGRADE_TEAM_NUMBER)), $this->getCurrentDivision($divisions, $division));
+            }
+            $stm->addTeam(new ArrayCollection(array_slice($team, self::UPGRADE_TEAM_NUMBER, $nbToKeepInDivision)), $this->getCurrentDivision($divisions, $division));
+
+            if ($this->getPreviousDivision($divisions, $division)) {
+                $stm->addTeam(new ArrayCollection(array_slice($team, -(self::DOWNGRADE_TEAM_NUMBER), self::DOWNGRADE_TEAM_NUMBER)), $this->getPreviousDivision($divisions, $division));
+            } else {
+                // Case no lower division
+                $stm->addTeam(new ArrayCollection(array_slice($team, -(self::DOWNGRADE_TEAM_NUMBER), self::DOWNGRADE_TEAM_NUMBER)), $this->getCurrentDivision($divisions, $division));
+            }
+
+        }
+
+    }
+
+
+    public function sortTeamByDivision (Season $season) {
+        $seasonTeams =  new ArrayCollection($this->getSeasonTeams($season));
+
+        $teamsByDivision = array();
+        // Create an array with division name keys to help slice after
+        foreach ($seasonTeams as $seasonTeam) {
+            $teamsByDivision[$seasonTeam->getDivision()->getName()][$seasonTeam->getRanking()] = $seasonTeam->getTeam();
+        }
+        return $teamsByDivision;
+    }
+
+
 
     /**
      * @param $id
