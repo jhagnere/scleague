@@ -16,7 +16,6 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new \Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
 
             // KNP HELPER BUNDLES
@@ -38,6 +37,7 @@ class AppKernel extends Kernel
             new SCLeague\SeasonBundle\SCLeagueSeasonBundle(),
             new SCLeague\UserBundle\SCLeagueUserBundle(),
 
+            new SCLeague\AdminBundle\SCLeagueAdminBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

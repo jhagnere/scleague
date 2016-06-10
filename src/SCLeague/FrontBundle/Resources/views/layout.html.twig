@@ -1,31 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
 
-    <title>Starcraft Team League</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" media="screen">
-
-    <!-- HTML5 Shim and Respond.js add IE8 support of HTML5 elements and media queries -->
-    {% include 'BraincraftedBootstrapBundle::ie8-support.html.twig' %}
-
-</head>
-
-<body style="padding-top: 70px;">
-
- {% include "SCLeagueFrontBundle::navigation.html.twig" %}
-
-<div class="bs-docs-header" id="content" tabindex="-1">
-    <div class="container">
-        {% block content %}
+        <title>Starcraft Team League</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link rel="stylesheet"
+              href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+        {% block stylesheets %}
         {% endblock %}
-    </div>
-</div>
 
-<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
-<script src="{{ asset('js/jquery.js') }}"></script>
-<!-- Include all JavaScripts, compiled by Assetic -->
-<script src="{{ asset('js/bootstrap.js') }}"></script>
-</body>
+    </head>
+
+    <body style="padding-top:50px">
+        {% include "SCLeagueFrontBundle::navigation.html.twig" %}
+        <div class="container-fluid">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+        <script src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
+        <!-- Include all JavaScripts, compiled by Assetic -->
+        <script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    </body>
 </html>

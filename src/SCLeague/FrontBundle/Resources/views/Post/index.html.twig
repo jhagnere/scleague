@@ -1,0 +1,64 @@
+{% extends 'SCLeagueFrontBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+
+    {% stylesheets '@SCLeagueFrontBundle/Resources/public/css/*' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+    {% include "SCLeagueFrontBundle::navside_admin.html.twig" %}
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page_header">Posts list</h1>
+            <div class="table-responsive">
+                <table class="table table-striped records_list">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Body</th>
+                            <th>Author</th>
+                            <th>Created Date</th>
+                            <th>Is News</th>
+                            <th>Comments</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for entity in entities %}
+                        <tr>
+                            <td><a href="{{ path('post_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                            <td>{{ entity.title }}</td>
+                            <td>{{ entity.body | truncate(255) }}</td>
+                            <td>{{ entity.authorBy }}</td>
+                            <td>{% if entity.createdDate %}{{ entity.createdDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                            <td>{{ entity.isNews }}</td>
+                            <td>{{ entity.comments }}</td>
+                            <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('post_show', { 'id': entity.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('post_edit', { 'id': entity.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <ul>
+                <li>
+                    <a href="{{ path('post_new') }}">
+                        Create a new entry
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {% endblock %}

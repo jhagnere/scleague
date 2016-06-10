@@ -42,10 +42,10 @@ class SeasonManager implements SeasonManagerInterface
 
         $previousSeason = $this->getSeason((int)$id - 1);
         $gameManager = new GameManager($this->om);
+        $season = $this->getSeason($id);
+        $divisions = new ArrayCollection($this->getDivisions());
         // Case of previous season already exist
         if ($previousSeason != null) {
-            $season = $this->getSeason($id);
-            $divisions = new ArrayCollection($this->getDivisions());
 
             $stm = new SeasonTeamManager($divisions, $this->om);
 

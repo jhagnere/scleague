@@ -1,7 +1,12 @@
+sc_league_admin:
+    resource: "@SCLeagueAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /futuradmin
+
 self_season:
     resource: "@SCLeagueSeasonBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /season
 
 self_front:
     resource: "@SCLeagueFrontBundle/Controller/"

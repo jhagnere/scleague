@@ -25,7 +25,7 @@ class User extends BaseUser {
     protected $id;
 
     /**
-     * @ORM\Column(name="battle_tag", type="string",length=255)
+     * @ORM\Column(name="battle_tag", type="string",length=255, nullable=true)
      * @Assert\NotBlank(message="Please enter your battletag.", groups={"Registration", "Profile"})
      * @Assert\Length(
      *     min=3,

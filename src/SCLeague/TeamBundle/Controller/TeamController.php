@@ -56,7 +56,7 @@ class TeamController extends Controller
         $user = $this->getUser();
         $team = $user->getTeam();
         if ($team == null) {
-            $response = $this->forward('SelfTeamBundle:Team:new');
+            $response = $this->forward('SCLeagueTeamBundle:Team:new');
             return $response;
         }
         return array('team' => $team);
@@ -123,7 +123,7 @@ class TeamController extends Controller
 
 
 
-            return $this->redirect($this->generateUrl('self_team_team_myteam'));
+            return $this->redirect($this->generateUrl('scleague_team_team_myteam'));
         }
 
 

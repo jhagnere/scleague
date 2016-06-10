@@ -20,7 +20,6 @@ class DivisionAdmin extends Admin
         $formMapper->add('name', 'text', array('label' => 'Name'))
             ->add('imgDiv', 'file', array('required' => false))
             ->add('nextDivision', 'entity', array('class' => 'SCLeague\SeasonBundle\Entity\Division', 'required' => false, 'placeholder' => 'Choose upper division'))
-            ->add('previousDivision', 'entity', array('class' => 'SCLeague\SeasonBundle\Entity\Division', 'required' => false, 'placeholder' => 'Choose lower division'))
         ;
     }
 
@@ -33,7 +32,6 @@ class DivisionAdmin extends Admin
         $listMapper
             ->addIdentifier('name')
             ->add('nextDivision')
-            ->add('previousDivision')
 
         ;
     }
